@@ -1,9 +1,7 @@
 const express = require('express')
 const path = require('path');
-const { Socket } = require('socket.io');
 
 const app = express();
-
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
@@ -17,7 +15,13 @@ app.use('/', (req, res)=>{
 });
 
 io.on('connection', socket =>{
-    console.log('Socket conectado: ${socket.id}')
+    console.log('Socket conectado: ${socket.id}');
+
+    socket.on('sendMessage', data =>{
+        console.log(data);
+    });
 });
 
-server.listen(3000);
+server.listen(3000, ()=>{
+    console.log('Online http://localhost:3000')
+});
