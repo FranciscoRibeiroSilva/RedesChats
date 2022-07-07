@@ -8,11 +8,22 @@ const httpServer = http.createServer(app);
 const io = new socketio.Server(httpServer);
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
-io.on('connection', (socket)=>{
-    console.log(`new connection: ${socket.id}`)
-})
+app.set('views', path.join(__dirname, '..', 'public'));
+app.engine('html', require('ejs').renderFile);
+app.set('views engine', 'html');
 
-app.use('/q', (req, res)=>{
+
+app.use('/', (req, res)=>{
     res.render('index.html')
 })
+
+io.on('connection', (socket)=>{
+    console.log(`new connection: ${socket.id}`)
+
+    socket.on('sendMessage', data =>{
+        console.log(data)
+    })
+
+})
+
 httpServer.listen(3333);
