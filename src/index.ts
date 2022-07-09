@@ -17,11 +17,13 @@ app.use('/', (req, res)=>{
     res.render('index.html')
 })
 
+let messagens = [];
+
 io.on('connection', (socket)=>{
     console.log(`new connection: ${socket.id}`)
 
     socket.on('sendMessage', data =>{
-        console.log(data)
+        messagens.push(data);
     })
 
 })

@@ -21,6 +21,10 @@
     <script type="text/javascript">
         var socket = io('http://localhost:3333');
 
+        function renderMessage(message){
+            $('.message').append('<div class = "message"> <strong>'+message.author+'</strong>: '+message.message+' </div>');
+        }
+
         $('#chat').submit(function(event) {
             event.preventDefault();
 
@@ -32,6 +36,8 @@
                     author: author,
                     message: message,
                 };
+
+                renderMessage(messageObject);
 
                 socket.emit('sendMessage', messageObject);
             }
